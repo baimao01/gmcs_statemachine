@@ -35,8 +35,15 @@ public partial class StateMachineComponent : IComponent
         if (!CheckStates())
             return;
 
+        bool isInitialState = false;
         foreach (IState state in states.Values)
         {
+            if (!isInitialState)
+            {
+                currState = state;
+                isInitialState = true;
+            }
+
             state._Register();
             state.EmitSignal(IState.SignalName.Register);
             state._Ready();
